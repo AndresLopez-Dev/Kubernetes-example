@@ -1,0 +1,23 @@
+helm install --values=my-values.yaml <chart-name>
+helm install --set version=2.0.0 <chart-name>
+
+---------------------------------- Default ------------------------------
+* values.yaml
+
+imageName: myapp
+port: 8080
+versión: 1.0.0
+
+
+----------------------------------- Override values (sobreescritura)---------------------------
+* my-values.yaml
+
+versión: 2.0.0
+
+----------------------------------- .Value object ---------------------------
+* resultado
+
+imageName: myapp
+port: 8080
+versión: 2.0.0
+

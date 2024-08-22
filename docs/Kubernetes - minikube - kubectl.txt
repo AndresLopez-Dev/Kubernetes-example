@@ -1,0 +1,136 @@
+* Minikube
+
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+
+minikube start --driver=Docker
+minikube status
+
+
+* Kubectl
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+kubectl version --client
+
+-- Comandos:
+
+	* kubectl get nodes
+	* kubectl get pods (-o wide)
+	* kubectl get services
+	* kubectl get deployment
+	* kubectl get replicaset
+	* kubectl get secret
+	* kubectl logs "NAME-pod"
+	* kubectl describe pod "NAME-pod"
+	* kubectl describe service "NAME-service"
+	* kubectl exec -it "NAME-pod" -- bin/bash
+
+	* kubectl create deployment "NAME" --image="image" [--dry-run] [options]
+	* kubectl edit deployment "NAME"
+	* kubectl delete deployment "NAME"
+	
+	* kubectl create namespace "space-name" o con un archivo de configuración
+	* kubectl config set-context --current --namespace=<insert-namespace-name-here>
+
+	* Instalar ingress controller -> minikube addons enable ingress
+
+	* helm search <keyword>
+	* helm install <chart-name>
+	* helm install --values=my-values.yaml <chart-name>
+	* helm install --set version=2.0.0 <chart-name>
+	* helm upgrade <chartname>
+	* helm rollback <chartname>
+
+Archivo de configuración:
+	* kubectl apply -f "config-file.yaml"
+
+------------------deployment.yaml -----------------
+apiVersion: apps/vl
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+  template:
+    metadata:
+      labels:
+	app: nginx
+    spec:
+      containers:
+      — name: nginx
+	image: nginx:l. 16
+	ports:
+	— containerPort: 8080
+-------------------------deployment.yaml----------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  labels:
+    app: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongo-root-username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongo-root-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+
+---------------------------------------------------------------------
+Secreto:
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mododb-secret
+type: Opaque
+data:
+  mongo-root-username: ZGF2aWQ=
+  mongo-root-password: cGFzc3dvcmQ=
+
+----base64----------
+echo -n 'palabra' | base64
+
+david = ZGF2aWQ=
+password = cGFzc3dvcmQ=
+
+
+
+

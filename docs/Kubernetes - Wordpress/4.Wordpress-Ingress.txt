@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wordpress-ingress
+  namespace: wordpress-space
+spec:
+  rules:
+   - host: miwordpress.com
+     http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: wordpress-service
+              port:
+                number: 8080
+
+
+sudo vim /etc/hosts
+
+* Ver ip Ingress
+kubectl get ingress -n wordpress-space --watch
+
+192.168.49.2

@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-name
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWrite0nce
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: slow
+  mountOptions:
+    - hard
+    - nfsvers=4.0
+  nfs:
+    path: /dir/path/on/nfs/server
+    server: nfs-server-ip-address
+
+
+
+--------------------------- Google cloud ----------------------------------
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: test-name
+  labels:
+    failure-domain.beta.kubernetes.io/zone: us-centrall-a__us-centrall-b
+spec:
+  capacity:
+    storage: 400Gi
+  accessModes:
+    - ReadWrite0nce
+  gcePersistentDisk:
+    pdName: my-data-disk
+    fsType: ext4
+
+--------------------------- Local Storage ----------------------------------
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: example-pv
+spec:
+  capacity:
+    storage: 100Gi
+    volumeMode: FileSystem
+    accessModes:
+    - ReadWrite0nce
+    persistentVolumeReclaimPolicy: Delete
+    storageClassName: local-storage
+    local:
+      path: /mnt/disks/ssd1
+    nodeAffinity:
+      required:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - example-node
