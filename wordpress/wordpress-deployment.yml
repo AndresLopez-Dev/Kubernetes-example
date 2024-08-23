@@ -1,19 +1,21 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress-deployment
+  labels:
+    app: wordpress
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: wordpress-deployment
+      app: wordpress
   template:
     metadata:
       labels:
-        app: wordpress-deployment
+        app: wordpress
     spec:
       containers:
-      - name: wordpress-deployment
+      - name: wordpress
         image: wordpress:5.3.2
         ports:
         - containerPort: 80
@@ -45,7 +47,7 @@ metadata:
   name: wordpress-service
 spec:
   selector:
-    app: wordpress-deployment
+    app: wordpress
   ports:
     - protocol: TCP
       port: 8080
