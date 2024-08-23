@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Ingress
 metadata:
   name: wordpress-ingress
-  namespace: wordpress-space
 spec:
   rules:
    - host: miwordpress.com
