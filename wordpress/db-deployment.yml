@@ -36,7 +36,7 @@ spec:
               name: wordpress-db-secret
               key: mysql-user
         - name: MYSQL_PASSWORD
-          valueFron:
+          valueFrom:
             secretKeyRef:
               name: wordpress-db-secret
               key: mysql-password
