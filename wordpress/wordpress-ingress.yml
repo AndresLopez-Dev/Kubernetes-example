@@ -1,7 +1,8 @@
-apiVersion: apps/v1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: wordpress-ingress
+  namespace: wordpress-space
 spec:
   rules:
    - host: miwordpress.com
